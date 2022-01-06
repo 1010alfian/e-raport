@@ -42,28 +42,27 @@ class Nilai extends BaseController
             $uts = $this->request->getPost('uts');
             $uas = $this->request->getPost('uas');
             $deskripsi = $this->request->getPost('deskripsi');
+
             $jumlah = array($tgs+$uts+$uas);
             $count = count($jumlah);
             $sum = array_sum($jumlah);
             $hasil = $sum/$count;
             $rata = $hasil;
 
-                foreach ($id_siswa as $key) {
-                    //masukkan data ke variabel array jika kedua form tidak kosong
-                    $simpan[] = [
+            $jmldata = count($id_siswa);
 
-                        'id_siswa' => $id_siswa[$key],
-                        'id_mapel'         => $id_mapel[$key],
-                        'tgs'         => $tgs[$key],
-                        'uts'         => $uts[$key],
-                        'uas'         => $uas[$key],
-                        'deskripsi'         => $deskripsi[$key],
-                        'rata_rata'         => $rata[$key],
-                        
-                    ];
-                    $this->keterampilan->insertBatch($simpan);
-                }
-                    return redirect()->to(site_url('keterampilan/matematika'))->with('msg', 'Berhasil Disimpan');
+            for ($i = 0; $i < $jmldata; $i++ ){
+                $this->keterampilan->insert([
+                        'id_siswa'    => $id_siswa[$i],
+                        'id_mapel'    => $id_mapel,
+                        'tgs'         => $tgs[$i],
+                        'uts'         => $uts[$i],
+                        'uas'         => $uas[$i],
+                        'deskripsi'   => $deskripsi[$i],
+                        'rata_rata'   > $rata,
+                ]);
+            }
+           return redirect()->to(site_url('keterampilan/matematika'))->with('msg', 'Berhasil Disimpan');
 
     }
     //Matematika Keterampilan
